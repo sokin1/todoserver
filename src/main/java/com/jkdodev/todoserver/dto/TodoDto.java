@@ -1,4 +1,4 @@
-package com.jkdodev.dto;
+package com.jkdodev.todoserver.dto;
 
 import java.time.Instant;
 

@@ -1,8 +1,6 @@
 package com.jkdodev.todoserver.controller;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jkdodev.todoserver.dto.UserDto;
 import com.jkdodev.todoserver.entity.UserEntity;
 import com.jkdodev.todoserver.service.UserService;
 
@@ -24,13 +23,12 @@ public class UserController {
     
     @PostMapping
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
-        UserEntity newUser = new UserEntity();
-        newUser.setId(UUID.randomUUID());
-        newUser.setName(name);
-        newUser.setEmail(email);
-        newUser.setCreatedAt(LocalDateTime.now());
+        UserDto newUserDto = new UserDto();
+        newUserDto.setName(name);
+        newUserDto.setEmail(email);
+        newUserDto.setPassword(password);
 
-        userService.addNewUser(newUser);
+        userService.addNewUser(newUserDto);
         return "Saved";
     }
 

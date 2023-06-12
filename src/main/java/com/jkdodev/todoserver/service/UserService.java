@@ -1,6 +1,8 @@
 package com.jkdodev.todoserver.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,5 +21,15 @@ public class UserService {
 
     public Optional<UserEntity> getUserDetail(int id) {
         return userRepository.findById(id);
+    }
+
+    public void updateLastLogin(int id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            UserEntity updateUser = user.get();
+            updateUser.setLastActive(LocalDateTime.now());
+            userRepository.save(updateUser);
+        }
+        
     }
 }

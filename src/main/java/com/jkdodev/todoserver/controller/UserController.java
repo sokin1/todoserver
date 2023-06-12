@@ -1,5 +1,6 @@
 package com.jkdodev.todoserver.controller;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,20 +22,29 @@ public class UserController {
     @Autowired
     private UserService userService;
     
-    @GetMapping("/{id}")
-    public Optional<UserEntity> getTodo(@PathVariable int id) {
-        System.out.println(id);
-        return userService.getUserDetail(id);
-    }
-
     @PostMapping
-    public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email) {
+    public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
         UserEntity newUser = new UserEntity();
         newUser.setId(UUID.randomUUID());
         newUser.setName(name);
         newUser.setEmail(email);
+        newUser.setCreatedAt(LocalDateTime.now());
 
         userService.addNewUser(newUser);
         return "Saved";
+    }
+
+    @PostMapping
+    public @ResponseBody Optional<UserEntity> authenticateUser(@RequestParam String email, @RequestParam String password) {
+        String encodedPassword = password;
+        // authenticate from firebase and get uuid
+
+        return userService.getUserDetail(0);
+    }
+
+    @GetMapping
+    public @ResponseBody String logoutUser(@PathVariable int id) {
+        userService.updateLastLogin(id);
+        return "Logged out";
     }
 }
